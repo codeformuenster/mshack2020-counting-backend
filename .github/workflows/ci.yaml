@@ -53,8 +53,8 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           builder: ${{ steps.buildx.outputs.name }}
-          context: ./app
-          file: ./app/Dockerfile
+          context: .
+          file: ./Dockerfile
 
       - name: Build and push
         id: docker_build
