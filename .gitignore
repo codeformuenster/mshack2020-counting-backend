@@ -1,0 +1,10 @@
+# ide
+.vscode
+
+# python
+__pycache__
+*.pyc
+*.egg-info
+
+# secrets
+.env
