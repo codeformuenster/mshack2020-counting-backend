@@ -38,7 +38,7 @@ def read_count(count_id: int) -> model.Count:
 
 
 @app.post("/counts/", status_code=201)
-async def create_count(long: float, lat: float, count: float): #-> Optional
+async def create_count(count: model.CountParameter):
     """ Insert new count into database.
 
     Args:
@@ -47,11 +47,13 @@ async def create_count(long: float, lat: float, count: float): #-> Optional
 
         lat (float): Latitude of count
 
-        count (float): Count value
+        count (int): Count value
+
+        timestamp (str): Timestamp in ISO8601 notation
     """
-    count = db.counts.insert(long=long, lat=lat, count=count)
+    inserted_count = db.counts.insert(long=count.long, lat=count.lat, count=count.count, timestamp=count.timestamp)
     db.commit()
     return {
         "inserted": True,
-        "count_id": count.id
+        "count_id": inserted_count.id
     }
