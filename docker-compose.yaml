@@ -10,11 +10,11 @@ services:
     container_name: fastapi
     env_file: ./.env
     ports:
-      - "80:80"
-    command: bash -c "sleep 3 && create_tables && uvicorn api_test.api:app --host 0.0.0.0 --port 80"
+      - "8080:8080"
+    command: bash -c "sleep 3 && create_tables && uvicorn api_test.api:app --host 0.0.0.0 --port 8080"
 
   postgres:
-    image: postgres
+    image: postgres:11
     container_name: postgres
     restart: always
     env_file: ./.env
