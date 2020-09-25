@@ -57,3 +57,16 @@ async def create_count(count: model.CountParameter):
         "inserted": True,
         "count_id": inserted_count.id
     }
+
+@app.post("/ttn_pax_counts/", status_code=201)
+async def create_count(count: model.TTNHTTPIntegrationParameter):
+    """ Endpoint for TTN HTTP integration sending pax counter data.
+    """
+    data = count.dict()
+    payload = data['payload_fields']
+    inserted_count = db.counts.insert(long=payload['longitude'], lat=payload['latitude'], count=payload['wifi'], timestamp=payload['time'])
+    db.commit()
+    return {
+        "inserted": True,
+        "count_id": inserted_count.id
+    }

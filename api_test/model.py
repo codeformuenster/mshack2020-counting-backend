@@ -19,8 +19,20 @@ class Count(Base):
     def __repr__(self):
         return f"Count({self.long}, {self.lat}: {self.count})"
 
+# parameter for POST /counts
 class CountParameter(BaseModel):
     long: float
     lat: float
     count: int
     timestamp: str
+
+# paramter model for `payload_fields` for POST /ttn_pax_counts
+class TTNPayloadFields(BaseModel):
+    longitude: float
+    latitude: float
+    wifi: int
+    time: str
+
+
+class TTNHTTPIntegrationParameter(BaseModel):
+    payload_fields: TTNPayloadFields
