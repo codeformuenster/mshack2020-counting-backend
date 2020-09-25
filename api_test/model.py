@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, Float, DateTime
+from sqlalchemy import Column, Integer, Float, DateTime, String, JSON
 from sqlalchemy.ext.declarative import declarative_base
 
 from pydantic import BaseModel
@@ -15,6 +15,7 @@ class Count(Base):
     lat = Column(Float, nullable=False)
     count = Column(Integer, nullable=False)
     timestamp = Column(DateTime, nullable=False)
+    device_id = Column(String, nullable=True)
 
     def __repr__(self):
         return f"Count({self.long}, {self.lat}: {self.count})"
@@ -25,6 +26,7 @@ class CountParameter(BaseModel):
     lat: float
     count: int
     timestamp: str
+    device_id: str
 
 # paramter model for `payload_fields` for POST /ttn_pax_counts
 class TTNPayloadFields(BaseModel):
@@ -33,6 +35,19 @@ class TTNPayloadFields(BaseModel):
     wifi: int
     time: str
 
-
 class TTNHTTPIntegrationParameter(BaseModel):
     payload_fields: TTNPayloadFields
+
+
+class Device(Base):
+    __tablename__ = "devices"
+
+    id = Column(String, primary_key=True)
+    data = Column(JSON, nullable=True)
+
+    def __repr__(self):
+        return f"Device({self.id}, {self.data})"
+
+class DeviceModel(BaseModel):
+    id: str
+    data: dict
