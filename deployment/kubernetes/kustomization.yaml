@@ -25,4 +25,4 @@ secretGenerator:
 
 images:
 - name: ghcr.io/codeformuenster/mshack2020-counting-backend
-  newTag: master-bd8e5ab
+  newTag: master-3d66c61
