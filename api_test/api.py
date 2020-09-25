@@ -38,7 +38,7 @@ def read_count(count_id: int) -> model.Count:
 
 
 @app.post("/counts/", status_code=201)
-async def create_count(long: float, lat: float, count: float): -> Optional
+async def create_count(long: float, lat: float, count: float): #-> Optional
     """ Insert new count into database.
 
     Args:

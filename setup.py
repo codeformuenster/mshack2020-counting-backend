@@ -9,7 +9,7 @@ setup(
     scripts=['scripts/create_tables'],
     install_requires=[
         "fastapi",
-        "psycopg2",
+        "psycopg2-binary",
         "python-dotenv",
         "uvicorn",
         "sqlalchemy",

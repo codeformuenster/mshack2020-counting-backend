@@ -1,6 +1,6 @@
-FROM python:3.7
+FROM python:3.8-slim
 
-EXPOSE 80
+EXPOSE 8080
 
 WORKDIR /app
 
@@ -11,3 +11,5 @@ COPY setup.py /app/setup.py
 COPY ./scripts /app/scripts
 COPY ./api_test /app/api_test
 RUN pip install .
+
+CMD ["uvicorn", "api_test.api:app", "--host=0.0.0.0", "--port=8080"]

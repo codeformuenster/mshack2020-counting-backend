@@ -14,7 +14,7 @@ httptools==0.1.1          # via uvicorn
 mccabe==0.6.1             # via flake8
 mypy-extensions==0.4.3    # via black
 pathspec==0.8.0           # via black
-psycopg2==2.8.6           # via api_test (setup.py)
+psycopg2-binary==2.8.6    # via api_test (setup.py)
 pycodestyle==2.6.0        # via flake8
 pydantic==1.6.1           # via fastapi
 pyflakes==2.2.0           # via flake8
