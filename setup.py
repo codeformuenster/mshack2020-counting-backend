@@ -11,9 +11,11 @@ setup(
         "fastapi",
         "psycopg2-binary",
         "python-dotenv",
-        "uvicorn",
+        "pytz",
+        "requests",
         "sqlalchemy",
         "sqlsoup",
+        "uvicorn",
         # dev
         "black",
         "flake8",
