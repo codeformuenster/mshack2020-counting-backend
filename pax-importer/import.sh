@@ -14,15 +14,20 @@
 INPUT=mshack-data-3d.json
 
 # Url to post data to
-URL=http://localhost:8080/counts/
+#URL=http://localhost:8080
+URL=https://counting-backend.codeformuenster.org
 
+# create devices..
+curl -H "Content-type: application/json" -d '{"id":"ttgo-beam","lat":51.958209,"lon":7.638576}' "$URL/devices/"
+
+echo
 
 # jq data transformation
-JQ_QUERY=".[] | select(.longitude!=null) | { long: .longitude, lat: .latitude, count: .wifi, timestamp: .time }"
-
+JQ_QUERY=".[] | select(.longitude!=null) | { count: .wifi, timestamp: .time, device_id: .device_id }"
 
 while read -r payload
 do
-  curl -H "Content-type: application/json" -d "$payload" "$URL"
-  sleep 0.2
+  curl -H "Content-type: application/json" -d "$payload" "$URL/counts/"
+  sleep 0.01
+  echo
 done  < <(jq -c "${JQ_QUERY}" "${INPUT}")

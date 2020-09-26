@@ -21,12 +21,12 @@ services:
     ports:
       - "5432:5432"
 
-  pgadmin:
-    image: dpage/pgadmin4
-    container_name: pgadmin
-    depends_on:
-      - postgres
-    ports:
-      - "8080:80"
-    env_file: ./.env
-    restart: unless-stopped
+#  pgadmin:
+#    image: dpage/pgadmin4
+#    container_name: pgadmin
+#    depends_on:
+#      - postgres
+#    ports:
+#      - "8080:80"
+#    env_file: ./.env
+#    restart: unless-stopped
