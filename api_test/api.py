@@ -15,10 +15,21 @@ def read_root():
 
 
 @app.get("/counts")
-def read_count_ids():
-    """ Get all counts """
+def read_count_ids(only_latest: bool = False):
+    """ Get all counts 
+    
+    Field `only_latest` is optional.
+    If True, will only return the lastest count per device_id"""
     counts = db.counts.all()
-    return {"counts": counts}
+
+    if only_latest:
+        return_dict = {}
+        for count in counts:
+            if count.device_id not in return_dict or count.timestamp > return_dict[count.device_id].timestamp:
+                return_dict[count.device_id] = count
+        return return_dict
+    else:
+        return {"counts": counts}
 
 
 @app.get("/counts/{device_id}")
