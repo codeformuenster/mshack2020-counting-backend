@@ -77,6 +77,11 @@ metadata:
   labels:
     app.kubernetes.io/name: fastapi
     app.kubernetes.io/component: api
+  annotations:
+    nginx.ingress.kubernetes.io/enable-cors: "true"
+    nginx.ingress.kubernetes.io/cors-allow-methods: "PUT, GET, POST, OPTIONS"
+    nginx.ingress.kubernetes.io/cors-allow-origin: "*"
+    nginx.ingress.kubernetes.io/cors-allow-credentials: "true"
 spec:
   rules:
   - host: counting-backend.codeformuenster.org
