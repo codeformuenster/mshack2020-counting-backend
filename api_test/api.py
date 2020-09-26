@@ -33,7 +33,11 @@ def read_count(device_id: str):
 
         Count: Counts of this device_id
     """
-    counts = db.counts.filter(db.counts.device_id == device_id).all()
+    counts = (
+        db.counts.filter(db.counts.device_id == device_id)
+        .order_by(db.counts.timestamp.asc())
+        .all()
+    )
     return {"counts": counts}
 
 
