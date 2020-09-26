@@ -21,20 +21,20 @@ def read_count_ids():
     return {"counts": counts}
 
 
-@app.get("/counts/{count_id}")
-def read_count(count_id: int) -> model.Count:
-    """Read count for a given ID.
+@app.get("/counts/{device_id}")
+def read_count(device_id: str):
+    """Read count for a given device ID.
 
     Args:
 
-        count_id (int): ID of count to be read
+        device_id (str): ID of count to be read
 
     Returns:
 
-        Count: Count entry
+        Count: Counts of this device_id
     """
-    count = db.counts.filter(db.counts.id == count_id).one()
-    return {"count": count}
+    counts = db.counts.filter(db.counts.device_id == device_id).all()
+    return {"counts": counts}
 
 
 @app.post("/counts/", status_code=201)
