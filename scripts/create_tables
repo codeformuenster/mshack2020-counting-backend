@@ -1,8 +1,11 @@
-#!/bin/bin/env python
+#!/bin/env python
 # Create tables of database
 
 from api_test.db import get_db_engine
 from api_test.model import Base
 
 engine = get_db_engine()
-Base.metadata.create_all(engine)
+print(Base.metadata.tables)
+r = Base.metadata.create_all(engine)
+print(engine)
+print("ok")
