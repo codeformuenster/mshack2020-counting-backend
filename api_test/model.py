@@ -48,8 +48,8 @@ class CountParameter(BaseModel):
 
 # paramter model for `payload_fields` for POST /ttn_pax_counts
 class TTNPayloadFields(BaseModel):
-    longitude: float
-    latitude: float
+    longitude: Optional[float] = None
+    latitude: Optional[float] = None
     wifi: int
 
 
