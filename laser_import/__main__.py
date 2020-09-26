@@ -1,7 +1,8 @@
 import json
 import os
-import requests
 import pytz
+import requests
+import time
 
 from datetime import datetime, timedelta
 
@@ -34,14 +35,6 @@ hystreet_url = "https://hystreet.com/api/locations"
 hystreet_token = os.getenv("HYSTREET_TOKEN")
 
 counting_backend_url = "https://counting-backend.codeformuenster.org"
-
-# datetime.now().astimezone(tz).replace(hour=1,minute=0,second=0,microsecond=0).isoformat()
-
-
-# param_from = now.replace(hour=now_hour - 1,minute=0, second=0, microsecond=0).isoformat()
-# param_to = now.replace(hour=now_hour, minute=0, second=0, microsecond=0).isoformat()
-# param_from = (now - timedelta(minutes=6)).replace(second=0, microsecond=0).isoformat()
-# param_to = (now - timedelta(minutes=1)).replace(second=0, microsecond=0).isoformat()
 
 
 def fetch_hystreet(id, param_from, param_to):
@@ -86,36 +79,40 @@ if __name__ == "__main__":
             r = post_device(mocks["name"], mocks["lat"], mocks["lon"])
             print(r)
 
+    now = (
+        datetime.now().astimezone(tz).replace(hour=0, minute=0, second=0, microsecond=0)
+    )
 
-    now = datetime.now().astimezone(tz).replace(hour=0, minute=0,second=0, microsecond=0)
+    for diff in range(1):
+        for id, mocks in locations.items():
+            param_from = (
+                (now - timedelta(days=(diff + 1)))
+                .replace(hour=0, minute=0, second=0, microsecond=0)
+                .isoformat()
+            )
+            param_to = (
+                (now - timedelta(days=(diff)))
+                .replace(hour=0, minute=0, second=0, microsecond=0)
+                .isoformat()
+            )
 
+            print(id)
+            print(param_from)
+            print(param_to)
 
-    day = 0
+            result = fetch_hystreet(id, param_from, param_to)
+            with open(
+                f"./laser_import/data/{mocks['name']}_{param_from}_{param_to}.json", "w"
+            ) as f:
+                json.dump(result, f, ensure_ascii=False)
 
-    for id, mocks in locations.items():
-        param_from = (now - timedelta(days=(day + 1))).replace(hour=0, minute=0,second=0, microsecond=0).isoformat()
-        param_to = (now - timedelta(days=(day))).replace(hour=0, minute=0, second=0, microsecond=0).isoformat()
+            for m in result["measurements"]:
+                post_result = post_counts(
+                    mocks["name"],
+                    m["pedestrians_count"],
+                    m["timestamp"],
+                )
 
-        print(id)
-        print(param_from)
-        print(param_to)
-
-        day = day + 1
-
-
-
-        # result = fetch_hystreet(id, param_from, param_to)
-        # with open(f"./laser_import/data/{mocks['name']}_{param_from}_{param_to}.json", "w") as f:
-        #     # print(json.dumps(result, ensure_ascii=False))
-        #     json.dump(result, f)
-
-        # for
-
-        # post_result = post_counts(
-        #     mocks['name'],
-        #     result["statistics"]["timerange_count"],
-        #     result["metadata"]["measured_to"],
-        # )
-
-        # print(result)
-        # print(post_result)
+                print(post_result)
+        print("---- sleeping 5 seconds before continuing")
+        time.sleep(5)

@@ -11,3 +11,5 @@ __pycache__
 
 mshack-data-3d.json
 database-passwords
+
+laser_import/data/*.json
